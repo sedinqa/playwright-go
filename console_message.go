@@ -1,5 +1,7 @@
 package playwright
 
+import "fmt"
+
 type consoleMessageImpl struct {
 	event map[string]interface{}
 	page  Page
@@ -8,7 +10,9 @@ type consoleMessageImpl struct {
 func (c *consoleMessageImpl) Type() string {
 	return c.event["type"].(string)
 }
-
+func (c *consoleMessageImpl) Worker() (Worker, error) {
+	return nil, fmt.Errorf("not implemented")
+}
 func (c *consoleMessageImpl) Text() string {
 	return c.event["text"].(string)
 }

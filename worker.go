@@ -70,6 +70,10 @@ func (w *workerImpl) OnClose(fn func(Worker)) {
 	w.On("close", fn)
 }
 
+func (w *workerImpl) OnConsole(fn func(ConsoleMessage)) {
+	w.On("console", fn)
+}
+
 func newWorker(parent *channelOwner, objectType string, guid string, initializer map[string]interface{}) *workerImpl {
 	bt := &workerImpl{}
 	bt.createChannelOwner(bt, parent, objectType, guid, initializer)

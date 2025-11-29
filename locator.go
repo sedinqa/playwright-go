@@ -1,8 +1,10 @@
 package playwright
 
 import (
+	"encoding/json"
 	"errors"
 	"fmt"
+	"regexp"
 	"strconv"
 )
 
@@ -105,6 +107,27 @@ func (l *locatorImpl) AllTextContents() ([]string, error) {
 	result := make([]string, len(texts))
 	for i := range texts {
 		result[i] = texts[i].(string)
+	}
+	return result, nil
+}
+func (l *locatorImpl) Describe(description string) Locator {
+	return newLocator(l.frame, l.selector+` >> internal:describe=`+escapeText(description))
+}
+
+func (l *locatorImpl) Description() (string, error) {
+	// Precompiled regex (place this at package level)
+	// var describeRe = regexp.MustCompile(` >> internal:describe=("(?:(?:[^"\\]|\\.)*)")$`)
+	var describeRe = regexp.MustCompile(` >> internal:describe=("(?:(?:[^"\\]|\\.)*)")$`)
+
+	match := describeRe.FindStringSubmatch(l.selector)
+	if len(match) < 2 {
+		// No match → return empty string and nil error
+		return "", nil
+	}
+
+	var result string
+	if err := json.Unmarshal([]byte(match[1]), &result); err != nil {
+		return "", err
 	}
 	return result, nil
 }

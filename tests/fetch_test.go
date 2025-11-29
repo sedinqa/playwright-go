@@ -261,7 +261,7 @@ func TestStorageStateShouldRoundTripThroughFile(t *testing.T) {
 	BeforeEach(t)
 
 	storageState := &playwright.StorageState{
-		Cookies: []playwright.Cookie{
+		Cookies: []playwright.StorageStateCookie{
 			{
 				Name:     "a",
 				Value:    "b",

@@ -1295,6 +1295,12 @@ func (p *pageImpl) OnDownload(fn func(Download)) {
 	p.On("download", fn)
 }
 
+func (p *pageImpl) ConsoleMessages() ([]ConsoleMessage, error) {
+	return nil, fmt.Errorf("not implemented")
+}
+func (p *pageImpl) Requests() ([]Request, error) {
+	return nil, fmt.Errorf("not implemented")
+}
 func (p *pageImpl) OnFileChooser(fn func(FileChooser)) {
 	p.On("filechooser", fn)
 }
